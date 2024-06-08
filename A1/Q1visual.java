@@ -12,7 +12,7 @@ public class Main {
 		
 		System.out.println("Value of i before the loop = " + i);
 		System.out.println("Value of j before the loop = " + j);
-		System.out.println("i\tj");
+		System.out.println("\ni\tj");
 		
 		while(i <= j) {	
 			// swap process
@@ -22,7 +22,7 @@ public class Main {
 			System.out.println("\t" + j);
 		}
 		
-		System.out.println("Value of i after the loop = " + i);
+		System.out.println("\nValue of i after the loop = " + i);
 		System.out.println("Value of j after the loop = " + j);
 	}
 
@@ -30,7 +30,7 @@ public class Main {
 		
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 15; i++) {
 			list.add(i);
 		}
 		
