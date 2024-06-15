@@ -7,7 +7,6 @@ public class Main {
 		if(n < 2) {
 			return false;
 		}
-		
 		int x = 2;
 		
 		while(x < n) {
@@ -17,12 +16,10 @@ public class Main {
 			}
 			x ++;
 		}
-				
 		return true;
 	}
 
 	public static void main(String[] args) {
-		
 		boolean a = freaky(5);
 		System.out.println("Returned: " + a);
 	}
