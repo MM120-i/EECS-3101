@@ -1,0 +1,438 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+
+\begin{document}
+1.
+
+We can use a trace table for the first step (loop invariant).
+
+Let us take a small input, say Ist $=[1,2,3,4,5]$
+
+$\mathrm{n}=$ len(lst)
+
+$=5$
+
+$\mathrm{i}=0$
+
+$j=n-1$
+
+$=5-1$
+
+$=4$
+
+Tracing Table:
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+$\mathrm{i}$ & $\mathrm{j}$ & Loop Guard $(i \leq j)$ & \begin{tabular}{l}
+Swapping process \\
+swap(Ist[i], Ist[j] $)$ \\
+\end{tabular} \\
+\hline
+0 & 4 & $0 \leq 4$ & $[\underline{5}, 2,3,4,1]$ \\
+\hline
+1 & 3 & $1 \leq 3$ & $[5,4,3,2,1]$ \\
+\hline
+2 & 2 & $2 \leq 2$ & $[5,4,3,2,1]$ \\
+\hline
+3 & 1 & $3 \leq 1$ & $[5,4,3,2,1]$ \\
+\hline
+\end{tabular}
+\end{center}
+
+By now, we see a pattern in the trace table. We can see that there is an inverse linear relationship between variables ' $\mathrm{i}$ ' and ' $\mathrm{j}$. As ' $\mathrm{i}$ ' increments by 1 every iteration, ' $\mathrm{j}$ ' decrements by 1 every iteration.
+
+An important thing to note is that when $\mathrm{i}=\mathrm{j}$, the loop will terminate in the next iteration because in the next iteration, the loop guard will be violated.
+
+Based on the given loop, the variables associated with the loop, and the trace table, here is the loop invariant:
+
+$\operatorname{inv}(i, j):(0 \leq i \leq n) \wedge(-1<j \leq n-1)$
+
+Proof of Invariant:
+
+\section*{Base Case:}
+Before entering the loop, the following values are assigned to the variables in question ( $\mathrm{i}$ and j).
+
+$\mathrm{i}=0$ and $\mathrm{j}=\mathrm{n}-1$
+
+So,
+
+$\operatorname{inv}(0, n-1):(0 \leq 0 \leq n) \wedge(-1 \leq n-1 \leq n-1)$
+
+The first part of the invariant $(0 \leq 0 \leq n)$ will hold because the variable ' $n$ ' is the length of the input list, and that is always greater than or equal to zero.
+
+The second part of the invariant $(-1 \leq n-1 \leq n-1)$ will also hold because the length of the input list subtracted by one will be greater than or equal to a negative one.
+
+Both parts hold so the base case is satisfied.
+
+Inductive Hypothesis:
+
+Let $i_{1}$ and $j_{1}$ be variables in some random iteration of the loop. Upto this iteration ' $L$ ' the invariant holds. At this iteration ' $L$ ' the values of the variables are $i_{1}$ and $j_{1}$
+
+So,
+
+$\operatorname{inv}\left(i_{1}, j_{1}\right):\left(0 \leq i_{1} \leq n\right) \wedge\left(-1 \leq j_{1} \leq n-1\right)$
+
+Performing one more iteration. The following values of ' $\mathrm{i}$ ' and ' $\mathrm{j}$ ' are after the iteration $L+1$ is complete. So we will have,
+
+$i_{2}=i_{1}+1 \quad$ and $\quad j_{2}=j_{1}-1$
+
+$\operatorname{inv}\left(i_{2}, j_{2}\right):\left(0 \leq i_{2} \leq n\right) \wedge\left(-1 \leq j_{2} \leq n-1\right)$
+
+Let us examine parts by parts of the invariant.
+
+Let us examine $\left(0 \leq i_{2} \leq n\right)$
+
+
+This holds true since $\mathrm{i}<\mathrm{n}$ and incrementing the variable $\mathrm{i}$ by 1 at each iteration keeps it within the bounds.
+
+Let us examine $\left(-1 \leq j_{2} \leq n-1\right)$
+
+$\left(-1 \leq j_{2} \leq n-1\right)$
+
+$=\left(-1 \leq j_{1}+1 \leq n-1\right)$
+
+This also holds true since $\mathrm{j}>-1$ and the variable $\mathrm{j}$ is decremented by 1 at each iteration keeping it within the bounds.
+
+Assuming the loop terminates, we show the postcondition.
+
+Assuming the loop terminates, the loop guard does not hold, so the negation of the guard holds, which is $\mathrm{i}>\mathrm{j}$.
+
+When the loop terminates (our assumption is that it does terminate), the invariant $(0 \leq i \leq n) \wedge(-1 \leq j \leq n-1)$ holds true. The condition $\mathrm{i}>\mathrm{j}$ holds because the indices $i$ and $j$ have crossed each other, meaning every pair of elements that needed to be swapped has been swapped.
+
+(Note that we do not know the implementation of the swap function, assuming the swap function is implemented correctly, the elements in the list will be swapped.)
+
+Furthermore, when $\mathrm{i}>\mathrm{j}$,
+
+$i=\left\lfloor\frac{n}{2}\right\rfloor+1 \quad$ and $\quad j=\left\lfloor\frac{n}{2}\right\rfloor-1$
+
+$\operatorname{inv}(i, j):\left(0 \leq\left\lfloor\frac{n}{2}\right\rfloor+1 \leq n\right) \wedge\left(-1 \leq\left\lfloor\frac{n}{2}\right\rfloor-1 \leq n-1\right)$
+
+The pairs being swapped are: $(0, n-1),(1, n-2), \ldots,\left(\left\lfloor\frac{n}{2}\right\rfloor-1,\left\lceil\frac{n}{2}\right\rceil\right)$
+
+The condition $\mathrm{i}$ > $\mathrm{j}$ makes sure that pairs have been swapped in the list (satisfies the postcondition).
+
+Proof of Termination:
+
+With the variable ' $\mathrm{i}$ ' incrementing and ' $\mathrm{j}$ ' decrementing every iteration, ' $\mathrm{i}$ ' will eventually be greater than ' $\mathrm{j}$ ', so $\mathrm{i} \leq \mathrm{j}$ will become false.
+
+We have the following loop variant:
+
+$V=1+\mathrm{j}-\mathrm{i}$
+
+On the first iteration, the value of the variant is the highest, and the value of the variant at the end of the iteration is going to be the lowest.
+
+We prove the following: $V \in \mathbb{N}$
+
+Before we enter the loop,
+
+$\mathrm{i}=0$
+
+$\mathrm{j}=\mathrm{n}-1$
+
+$\mathrm{n}=$ len(Ist)
+
+Due to the precondition, $\mathrm{n} \geq 0$ (array of any length)
+
+Initially,
+
+$$
+\begin{aligned}
+V & =1+j-i \\
+& =1+(n-1)-i \\
+& =1+(n-1)-0 \\
+& =1+n-1 \\
+& =n
+\end{aligned}
+$$
+
+So this is natural. The highest value initially.
+
+When we are in any iteration, that means we are passed the loop guard. The loop guard is $\mathrm{i} \leq \mathrm{j}$
+
+So,
+
+$\mathrm{i} \leq \mathrm{j}$
+
+$\Rightarrow 0 \leq \mathrm{j}-\mathrm{i}$
+
+$\Rightarrow \mathrm{j}-\mathrm{i} \geq 0$
+
+To show $V=1+\mathrm{j}$ - $\mathrm{i}$ decreases,
+
+Let $j_{1}$ and $i_{1}$ be on a iteration. Let's perform one more iteration, we have:
+
+$j_{2}=j_{1}-1$ and $i_{2}=i_{1}+1$
+
+Checking the difference:
+
+$\left(1+j_{1}-i_{1}\right)-\left(1+j_{2}-i_{2}\right)$
+
+$=1+j_{1}-i_{1}-1-j_{2}+i_{2}$
+
+$=j_{1}-i_{1}-j_{2}+i_{2}$
+
+$=j_{1}-i_{1}-\left(j_{1}-1\right)+\left(i_{1}+1\right)$
+
+$=2$
+
+Since $2>0$, the function is strictly decreasing at each iteration of the loop. This shows that the code terminates.
+
+2.
+
+Let us examine the first loop at line 2 . We can see that the loop starts at 0 and runs till it reaches $n-1$, so it can be written as the following:
+
+$\sum_{i=0}^{n-1} c \quad, c \in \mathbb{N}$
+
+The variable ' $c$ ' is used to denote some constant. The body of the first loop performs a simple arithmetic operation that takes constant time so we are denoting it as ' $c$ ' for that constant operation. Let us evaluate the summation for the first loop.
+
+With the help of the following summation formula, we can evaluate our original sum.
+
+$$
+\sum_{i=m}^{n} c=c(n+1-m)
+$$
+
+So,
+
+$$
+\begin{aligned}
+\sum_{i=0}^{n-1} c & =c(n-1+1-0) \\
+& =c(n)
+\end{aligned}
+$$
+
+So, we have:
+
+$O(c * n)$ but c is just some constant so we can drop it. We are left with:
+
+$O(n)$
+
+So the average runtime for the first loop is $O(n)$
+
+The second loop is also running ' $n$ ' times and in the body of the loop, we are checking the contents of the input array's index to see if it matches the 'check\_digit' variable. Those simple operations take constant time.
+
+To compute the average runtime for this algorithm we do the following:
+
+For the input we have,
+
+$A[i] \in\{0,1,2,3,4,5,6,7,8,9\}$, where $\mathrm{i}$ is the index of the array $\mathrm{A}$.
+
+We have to calculate the expectation of running time,
+
+$E\left[t_{n}\right]=\sum_{t=1}^{n+1} t^{*} p\left(t_{n}=t\right)$
+
+To get the probability distribution, we do the following:
+
+$$
+\begin{aligned}
+& p\left(t_{n}=1\right)=\frac{1}{10} \\
+& p\left(t_{n}=2\right)=\left(\frac{9}{10}\right)\left(\frac{1}{10}\right) \\
+& p\left(t_{n}=3\right)=\left(\frac{9}{10}\right)\left(\frac{9}{10}\right)\left(\frac{1}{10}\right)=\left(\frac{9}{10}\right)^{2}\left(\frac{1}{10}\right) \\
+& p\left(t_{n}=4\right)=\left(\frac{9}{10}\right)\left(\frac{9}{10}\right)\left(\frac{9}{10}\right)\left(\frac{1}{10}\right)=\left(\frac{9}{10}\right)^{3}\left(\frac{1}{10}\right) \\
+& \cdots \\
+& p\left(t_{n}=n\right)=\left(\frac{9}{10}\right)^{n-1}\left(\frac{1}{10}\right) \\
+& p\left(t_{n}=n+1\right)=\left(\frac{9}{10}\right)^{n}\left(\frac{1}{10}\right)
+\end{aligned}
+$$
+
+$$
+p\left(t_{n}=t\right)=\left\{\begin{array}{cc}
+\left(\frac{9}{10}\right)^{t-1}\left(\frac{1}{10}\right) & t_{n} \in\{0,1,2,3,4,5,6,7,8,9\} \\
+\left(\frac{9}{10}\right)^{n}\left(\frac{1}{10}\right) & t=n+1
+\end{array}\right.
+$$
+
+So we have the following, and we simplify it
+
+$$
+\begin{aligned}
+E[t] & =\sum_{t=1}^{n} t\left[\left(\frac{9}{10}\right)^{t-1}\left(\frac{1}{10}\right)\right]+(n+1)\left[\left(\frac{9}{10}\right)^{n}\left(\frac{1}{10}\right)\right] \\
+& =\frac{1}{10} \sum_{t=1}^{n} t\left(\frac{9}{10}\right)^{t-1}+(n+1)\left[\left(\frac{9}{10}\right)^{n}\left(\frac{1}{10}\right)\right]
+\end{aligned}
+$$
+
+Let $\mathrm{m}=\frac{9}{10}$, so we have:
+
+$$
+\begin{aligned}
+& =\frac{1}{10} \sum_{t=1}^{n} t(m)^{t-1}+(n+1)\left[(m)^{n}\left(\frac{1}{10}\right)\right] \\
+& =\frac{1}{10} \sum_{t=1}^{n} t(m)^{t-1}+\frac{n m^{n}}{10}+\frac{m^{n}}{10}
+\end{aligned}
+$$
+
+$$
+=\frac{1}{10} \sum_{t=1}^{n} t(m)^{t-1}+\frac{1}{10}\left(n m^{n}+m^{n}\right)
+$$
+
+Lets examine at the summation further. Notice that the expression $t(m)^{t-1}$ is the derivative of $m^{t}$, we will come back to this. For now, we can use the infinite geometric series formula, which is given as,
+
+$\sum_{i=0}^{\infty} a r^{k}=\frac{a}{1-r} \quad, r \neq 1$
+
+In our case,
+
+$a=\frac{1}{10}$ where $\mathrm{a}$ is some constant that is the same throughout the entire summation.
+
+So we can leave it out of the sum.
+
+$r=m=\frac{9}{10}$
+
+$k=t-1$
+
+We can use that derivative of the sum of geometric series,
+
+$\frac{d}{d r}\left(\frac{1}{1-r}\right)$
+
+$=\frac{d}{d r}\left[(1-r)^{-1}\right]$
+
+$=-1(1-r)^{-1-1}(-1) \quad$ Applying chain rule and simplifying further
+
+$=-(1-r)^{-2}(-1)$
+
+$=-\frac{1}{(1-r)^{2}}(-1)$
+
+$=\frac{1}{(1-r)^{2}}$
+
+So we have,
+
+$\sum_{t=1}^{\infty} k(r)^{k-1}=\frac{1}{(1-r)^{2}}$
+
+Let us plug this into the original equation,
+
+$$
+\begin{aligned}
+E\left[t_{n}\right] & =\frac{1}{10}\left[\sum_{t=1}^{n} t(m)^{t-1}+\left(n m^{n}+m^{n}\right)\right] \\
+& =\frac{1}{10}\left[\frac{1}{(1-r)^{2}}+\left(n m^{n}+m^{n}\right)\right]
+\end{aligned}
+$$
+
+We know the value of $r$ which is $m=\frac{9}{10}$, so we can plug that in too and simplify,
+
+$$
+\begin{aligned}
+& =\frac{1}{10}\left[\frac{1}{(1-m)^{2}}+\left(n m^{n}+m^{n}\right)\right] \\
+& =\frac{1}{10}\left[\frac{1}{\left[1-\left(\frac{9}{10}\right)\right]^{2}}+n\left(\frac{9}{10}\right)^{n}+\left(\frac{9}{10}\right)^{n}\right] \\
+& =\frac{1}{10}\left[100+n\left(\frac{9^{n}}{10^{n}}\right)+\frac{9^{n}}{10^{n}}\right] \\
+& =10+\frac{n^{*} 9^{n}}{10^{n+1}}+\frac{9^{n}}{10^{n+1}} \\
+& =10+\left(\frac{1}{10^{n+1}}\right)\left(n * 9^{n}+9^{n}\right) \\
+& =10+9^{n}\left(\frac{n+1}{10^{n+1}}\right)
+\end{aligned}
+$$
+
+Now, let us look at the dominant terms of the above. Let us look at this expression in our equation:
+
+$\frac{n+1}{10^{n+1}}$
+
+We can determine the dominant term by performing an asymptotic limit comparison of the numerator and denominator. Asymptotic limit comparison says that function $f(n)$ becomes insignificant compare to $g(n)$ as $n$ approaches infinity. This can be written as the following:
+
+\begin{align*}
+&= \frac{1}{10} \left[ \frac{1}{(1 - m)^2} + (nm^n + m^n) \right] \\
+&= \frac{1}{10} \left[ \frac{1}{\left[1 - \left(\frac{9}{10}\right)\right]^2} + n \left(\frac{9}{10}\right)^n + \left(\frac{9}{10}\right)^n \right] \\
+&= \frac{1}{10} \left[ 100 + n \left(\frac{9^n}{10^n}\right) + \frac{9^n}{10^n} \right] \\
+&= 10 + \frac{n * 9^n}{10^{n+1}} + \frac{9^n}{10^{n+1}} \\
+&= 10 + \left(\frac{1}{10^{n+1}}\right)(n * 9^n + 9^n) \\
+&= 10 + 9^n \left(\frac{n+1}{10^{n+1}}\right)
+\end{align*}
+
+Now, let us look at the dominant terms of the above. Let us look at this expression in our equation:
+
+\[
+\frac{n+1}{10^{n+1}}
+\]
+
+We can determine the dominant term by performing an asymptotic limit comparison of the numerator and denominator. Asymptotic limit comparison says that function \( f(n) \) becomes insignificant compared to \( g(n) \) as \( n \) approaches infinity. This can be written as the following:
+
+\[
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0
+\]
+
+In our case,
+
+\[
+f(n) = n + 1 \quad \text{and} \quad g(n) = 10^{n+1}
+\]
+
+So,
+
+\[
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = \lim_{n \to \infty} \frac{n+1}{10^{n+1}}
+\]
+
+Using L'Hopital's Rule and simplifying further,
+
+\[
+= \lim_{n \to \infty} \frac{1}{\ln(10) \cdot 10^{n+1}}
+\]
+
+\[
+= \left[ \frac{1}{\ln(10)} \right] \left[ \lim_{n \to \infty} \frac{1}{10^{n+1}} \right]
+\]
+
+\[
+= \left[ \frac{1}{\ln(10)} \right] \left[ \frac{1}{\infty} \right]
+\]
+
+\[
+= 0
+\]
+
+The limit comparison gave us 0, so that means that the numerator \( f(n) \) is insignificant compared to the denominator \( g(n) \).
+
+We can now continue with our original equation,
+
+\[
+E[t_n] = 10 + 9^n \left( \frac{n+1}{10^{n+1}} \right)
+\]
+
+\[
+= 10 + 9^n (0)
+\]
+
+\[
+= 10
+\]
+
+We have just evaluated the average runtime for the second loop at line 4, which is constant time.
+
+\[
+E[t_n] \in O(1)
+\]
+
+\text Finally, to calculate the average runtime for this algorithm, we combine the analysis for both of the loops. By combining \(O(n)\) from the first loop, and \(O(1)\) from the second loop, we get \(O(n)\) as the average runtime for this algorithm.\\
+
+\text{3 i) This function returns true if the input is a prime number, and it returns false if the input is not a prime number. So, the post-condition of the following:} \\
+\text{POST: Returns true if the input is a prime number, otherwise returns false.}
+
+\text{3ii) The loop we have in the code has the following loop guard: } x < n \text{ and } y \text{ of the given while/if statement checking for equality, and variable } x \text{ in the body incrementing by one each iteration. Let us look at worst-case scenario, which will have when the input is a prime number. This is where both because the code will have to perform additional steps to determine that arithmetic operations (minus addition). In worst case, the program will execute arithmetic instead a prime number and enter into phase in constant time.}
+
+\[\text{3iii) We say that big-theta of complexity of this function is } \Theta(n) \text{ since it runs } n \text{ times if } n \text{ is an integer.}\]
+
+\text 4)\\
+
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Expression} & \textbf{Big O Notation} \\
+\hline
+\( f \) & \( O(g) \) \\
+\( 3^k \times 2^{2k} \) & \( O(2^{3k}) \) \\
+\( \frac{2n^4 + 3n^3 - 1}{5n^4 - n} \) & \( O(n) \) \\
+\( (n + 7)^{10} - (n + 7)^9 \) & \( O(n^{10}) \) \\
+\( n^{0.1}\log{n} - n^{0.5} \) & \( O(n^{0.5})\) \\
+\( n\log{n} + n - 5\) & \(O(\log{n})\) \\
+\(8 + \frac{1}{n}\) & \(O(1)\) \\
+\(2^n + 3^n\) & \(O(10^n)\) \\
+\(n!\) & \(O(n!)\) \\
+\(\frac{5\log{n}}{\log{3n}}+1\) & \(O(n^\frac{1}{\log{n}})\) \\
+\((n-1)\log_2{(n^3+4)}\) & \(O(n\log_2{n})\) \\
+\hline
+\end{tabular}
+
+
+
+\end{document}
