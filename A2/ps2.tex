@@ -1,0 +1,159 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{ulem}
+\newcounter{ProblemNum}
+\newcounter{SubProblemNum}[ProblemNum]
+\newcommand{\divides}{\bigm|}
+\renewcommand{\theProblemNum}{\arabic{ProblemNum}}
+\renewcommand{\theSubProblemNum}{\alph{SubProblemNum}}
+\newcommand*{\anyproblem}[1]{\newpage\subsection*{#1}}
+\newcommand*{\problem}[1]{\stepcounter{ProblemNum} %
+\anyproblem{Problem \theProblemNum. \; #1}}
+\newcommand*{\soln}[1]{\subsubsection*{#1}}
+\newcommand*{\solution}{\soln{Solution}}
+\renewcommand*{\part}{\stepcounter{SubProblemNum} %
+\soln{Part (\theSubProblemNum)}}
+
+
+% Document metadata
+
+
+
+
+% Document starts here
+\begin{document}
+\begin{center}
+\begin{Large}
+  \textbf{EECS3101 Summer 2024 Assignment 2 }\\
+\end{Large}
+\begin{large}
+	Due: Jul 10th, 2024
+\end{large}
+\end{center}
+%\vspace{-.5in}
+
+\section*{General Instructions}
+Please read the following instructions carefully before starting the exercise. They contain important
+information about general exercise expectations, exercise submission instructions,
+and reminders of course policies.
+
+\begin{itemize}
+\item Your problem set is graded on both correctness and clarity of communication. Solutions
+which are technically correct but poorly written will not receive full marks. Please read over
+your solutions carefully before submitting them.
+
+\item Each problem set must be completed individually
+
+\item Solutions must be typeset electronically, submitted as a PDF with the correct filename ps2.pdf. Our recommendation goes for using {\LaTeX}  and we recommend \href{https://www.overleaf.com/}{Overleaf} as a tool, but you may feel free to pick your own tool, or generate a PDF using means such as Microsoft Word or other software.
+
+
+\item Submissions must be made \emph{before} the due date and time on eclass. Late submissions are not accepted.
+
+\end{itemize}
+
+
+
+\problem{}
+%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+\textsc{(30 Marks, 10 marks each part)} Recall exercise 4.4 from Week 5 lecture notes:
+
+\vskip5pt
+
+\includegraphics[scale=0.4]{ex4}
+
+\vskip5pt
+
+In what follows, we will call a \emph{matrix} any matrix that satisfies the conditions shown in the image above.
+
+\vskip5pt
+
+We will addittionally assume, that the matrix may have missing numerical elements. In this case, the cell fill be filled with the special value \texttt {INF} which is larger than any number (like infinity in mathematics). If a row contains an \texttt{INF} value this must be the last value, and if a column contains an \texttt{INF} value this must be the last value as well. For example, if a matrix contains a single \texttt{INF} value (and the rest is filled with numbers) the \texttt{INF} value must be located in the bottom row of the rightmost column. If a matrix contains no numbers (a.k.a \emph{empty matrix}), it will be filled only with \emph{INF} values.
+
+\vskip5pt
+
+In the form a warmup exercise, draw a $4\times 4$ matrix containing elements \\$\{9, 16, 3, 2, 4, 8, 5, 14, 12\}$.
+
+\begin{enumerate}
+	\item Develop an efficient algorithm called \texttt{popmin(A, n)} where $A$ is a nonempty $n\times n$ matrix which returns the smallest element of $A$ (which by definition is the element located in row 1, column 1) preserving the properties of the matrix as described above. Since we are removing a number from the matrix, the matrix after the operation will contain one more \texttt{INF} value. \textsc{Hint:} Think of \texttt{BuildMaxHeap} and don't forget to use recursion! The required operation must occur in place, that is no additional matrix (or additional array of any kind) can be used.
+	
+	\item Develop an eficient algorithm \texttt{insert(A, n, value)} where $A$ is a nonfull matrix (i.e. a matrix satisfying the above conditions, containin  at least one \texttt{INF} value), and \texttt{value} a number to be insterted. The insertion must occur in place, that is no additional matrix (or additional array of any kind) can be used.
+
+	\item Using no other sorting method, but the algorithms developed in previous parts of this exercise (if needed), develop an algorithm that sorts $n^2$ numbers in $O(n^3)$ time. You must use a $n\times n$ matrix as desribed above.
+\end{enumerate}
+
+
+
+%%Write your solution here
+
+\problem{}
+\textsc{(20 marks)} 
+Consider this algorithm:
+
+\vskip5pt
+\begin{verbatim}
+// PRE: A an array of numbers, initially low = 0, high = size of A - 1
+// POST: Returns the position of the pivot, and A is partitioned with 
+//            elements to the left of the pivot being <= pivot, 
+//            and elements to the right of the pivot being >=pivot
+int partition(A, low, high):
+    pivot = A[high]
+    i = low-1
+    for j from low to (high-1) do:
+        if pivot >= A[j] then do:
+            i = i + 1
+            swap A[j] with A[i]
+    swap A[i+1] with the pivot element at A[high]
+    return (i+1)
+\end{verbatim}
+
+
+\begin{enumerate}
+\item (\textsc{30 Points}) Prove correctenss of \texttt{partition}.
+\item (\textsc{10 Points})  Use \texttt{partition} to write a version of \texttt{Quicksort} that sorts a numerical array A in place.
+\end{enumerate}
+%%Write your solution here
+
+\problem{}
+%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+\textsc{(30 Marks)} Consider the following three methods of solving a particular problem (input size $n$):
+\begin{enumerate}
+	\item
+	You divide the problem into seven subproblems, each $\frac{1}{7}$ the size of the original problem, solve each recursively, then combine the results with a cost $12n+3$ where $n$ is the original problem size.
+	
+	\item
+	You reduce the problem size by $2$,  solve the subproblem recursively, then combine the results with a cost 120 operations.
+	
+	\item
+	You divide the problem into 2 subproblems, each $\frac{1}{2}$ of size of the original problem, solve each recursively, then combine the results with a cost $2n^2+3n+5$ where $n$ is the original problem size.
+\end{enumerate}
+
+Assume the base case has size 1 for all three methods.\\ \\
+For each method, write a recurrence capturing its worst-case runtime.
+Which of the three methods yields the fastest asymptotic runtime? 
+
+In your solution, you should use the Master Theorem wherever possible. In the case where the Master Theorem doesn't apply, \emph{clearly state why not} based on your recurrence, and show your work solving the recurrence using another method (no proofs required).
+
+
+%%Write your solution here
+
+\problem{}
+\textsc{(20 marks)} 
+
+A number is called {\bf monotone} if it consists of repeated decimal digits. For example, 3333 and 7777 are monotone numbers. 
+
+\begin{itemize}
+\item[(i)] \textsc{(10 Marks)} Write a divide and conquer function (in pseudocode) with time complexity $\Theta(n)$ named \verb|multiply_monotone| that takes as input a two monotone numbers. We assume $n$ is maximum length (number of digits) of the two monotone numbers, and in turn, the length of each of them (for simplicity) may be taken to be a power of 2. You may assume a number is represented as a string of digits.
+\item[(ii)] \textsc{(10 Marks)} Using Master Theorem, argue that the time complexity of your code is $\Theta(n)$.
+\end{itemize}
+
+%%Write your solution here
+\end{document}
