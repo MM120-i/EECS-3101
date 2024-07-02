@@ -1,0 +1,37 @@
+# Assuming the inputs are of type string. 
+multiply_monotone(x, y):
+   
+    n = max(length of x, length of y)
+
+    # base case:
+    if n == 1:
+        temp1 = convert x to integer
+        temp2 = convert y to integer
+        return temp1 * temp2
+   
+    # divide:
+    m = n // 2
+
+    x1 = first m digits of x
+    x2 = last m digits of x
+
+    y1 = first m digits of y
+    y2 = last m digits of y
+
+
+    # Conquer:
+    result1 = multiply_monotone(x1, x2)
+    result2 = multiply_monotone(y1, y2)
+   
+    sum1 = x1 + x2
+    sum2 = y1 + y2
+
+    result3 = multiply_monotone(sum1, sum2)
+
+    # Combine:
+    return result1 * pow(10, 2 * m) + 
+          (result3 - result1 - result2) * pow(10, m) + 
+           result2
+
+    # OR Combine:
+    # return result1 * pow(10, 2 * (n - m)) + (result3 - result1 - result2) * pow(10, n - m) + result2;
