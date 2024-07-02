@@ -3,9 +3,32 @@
 #include <string.h>
 #include <math.h>
 
-int char_to_int(char c)
+#define SIZE 20
+
+long long multiply_monotone(const char *, const char *);
+int char_to_int(char);
+
+int main()
 {
-    return c - '0';
+    const char *test1_x = "33";
+    const char *test1_y = "33";
+    printf("multiply_monotone(%s, %s) = %lld\n", test1_x, test1_y, multiply_monotone(test1_x, test1_y));
+
+    const char *test2_x = "7777";
+    const char *test2_y = "8888";
+    printf("multiply_monotone(%s, %s) = %lld\n", test2_x, test2_y, multiply_monotone(test2_x, test2_y));
+
+    const char *test3_x = "5555";
+    const char *test3_y = "5555";
+    printf("multiply_monotone(%s, %s) = %lld\n", test3_x, test3_y, multiply_monotone(test3_x, test3_y));
+
+    // Unequal length case
+    const char *test4_x = "555";
+    const char *test4_y = "55";
+
+    printf("multiply_monotone(%s, %s) = %lld\n", test4_x, test4_y, multiply_monotone(test4_x, test4_y));
+
+    return 0;
 }
 
 long long multiply_monotone(const char *x, const char *y)
@@ -14,11 +37,11 @@ long long multiply_monotone(const char *x, const char *y)
 
     if (n != strlen(y))
     {
-        fprintf(stderr, "Error: Input numbers must have equal length\n");
+        fprintf(stderr, "Error: Input numbers must have equal length.\n");
         exit(EXIT_FAILURE);
     }
 
-    // Base case:
+    // base case:
     if (n == 1)
     {
         return char_to_int(x[0]) * char_to_int(y[0]);
@@ -33,7 +56,7 @@ long long multiply_monotone(const char *x, const char *y)
 
     if (!x1 || !x2 || !y1 || !y2)
     {
-        fprintf(stderr, "Error: Memory allocation failed\n");
+        fprintf(stderr, "Error: Memory allocation failed.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -53,9 +76,10 @@ long long multiply_monotone(const char *x, const char *y)
 
     int sum1 = atoi(x1) + atoi(x2);
     int sum2 = atoi(y1) + atoi(y2);
-    char sum1_str[20], sum2_str[20];
-    snprintf(sum1_str, 20, "%d", sum1);
-    snprintf(sum2_str, 20, "%d", sum2);
+    char sum1_str[SIZE], sum2_str[SIZE];
+
+    snprintf(sum1_str, SIZE, "%d", sum1);
+    snprintf(sum2_str, SIZE, "%d", sum2);
 
     long long result3 = multiply_monotone(sum1_str, sum2_str);
 
@@ -68,26 +92,7 @@ long long multiply_monotone(const char *x, const char *y)
     return result1 * pow(10, 2 * (n - m)) + (result3 - result1 - result2) * pow(10, n - m) + result2;
 }
 
-// Test cases
-int main()
+int char_to_int(char c)
 {
-    const char *test1_x = "33";
-    const char *test1_y = "33";
-    printf("multiply_monotone(%s, %s) = %lld\n", test1_x, test1_y, multiply_monotone(test1_x, test1_y));
-
-    const char *test2_x = "7777";
-    const char *test2_y = "7777";
-    printf("multiply_monotone(%s, %s) = %lld\n", test2_x, test2_y, multiply_monotone(test2_x, test2_y));
-
-    const char *test3_x = "5555";
-    const char *test3_y = "5555";
-    printf("multiply_monotone(%s, %s) = %lld\n", test3_x, test3_y, multiply_monotone(test3_x, test3_y));
-
-    // Unequal length case
-    const char *test4_x = "555";
-    const char *test4_y = "55";
-
-    printf("multiply_monotone(%s, %s) = %lld\n", test4_x, test4_y, multiply_monotone(test4_x, test4_y));
-
-    return 0;
+    return c - '0';
 }
