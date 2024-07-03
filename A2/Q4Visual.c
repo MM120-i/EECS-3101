@@ -4,6 +4,7 @@
 #include <math.h>
 
 #define SIZE 20
+#define ERROR_VALUE -1
 
 long long multiply_monotone(const char *, const char *);
 int char_to_int(char);
@@ -12,21 +13,43 @@ int main()
 {
     const char *test1_x = "33";
     const char *test1_y = "33";
-    printf("multiply_monotone(%s, %s) = %lld\n", test1_x, test1_y, multiply_monotone(test1_x, test1_y));
+
+    long long result = multiply_monotone(test1_x, test1_y);
+
+    if (result != ERROR_VALUE)
+    {
+        printf("multiply_monotone(%s, %s) = %lld\n", test1_x, test1_y, result);
+    }
 
     const char *test2_x = "7777";
     const char *test2_y = "8888";
-    printf("multiply_monotone(%s, %s) = %lld\n", test2_x, test2_y, multiply_monotone(test2_x, test2_y));
+
+    result = multiply_monotone(test2_x, test2_y);
+
+    if (result != ERROR_VALUE)
+    {
+        printf("multiply_monotone(%s, %s) = %lld\n", test2_x, test2_y, result);
+    }
 
     const char *test3_x = "5555";
     const char *test3_y = "5555";
-    printf("multiply_monotone(%s, %s) = %lld\n", test3_x, test3_y, multiply_monotone(test3_x, test3_y));
 
-    // Unequal length case
+    result = multiply_monotone(test3_x, test3_y);
+
+    if (result != ERROR_VALUE)
+    {
+        printf("multiply_monotone(%s, %s) = %lld\n", test3_x, test3_y, result);
+    }
+
     const char *test4_x = "555";
     const char *test4_y = "55";
 
-    printf("multiply_monotone(%s, %s) = %lld\n", test4_x, test4_y, multiply_monotone(test4_x, test4_y));
+    result = multiply_monotone(test4_x, test4_y);
+
+    if (result != ERROR_VALUE)
+    {
+        printf("multiply_monotone(%s, %s) = %lld\n", test4_x, test4_y, result);
+    }
 
     return 0;
 }
@@ -38,10 +61,10 @@ long long multiply_monotone(const char *x, const char *y)
     if (n != strlen(y))
     {
         fprintf(stderr, "Error: Input numbers must have equal length.\n");
-        exit(EXIT_FAILURE);
+        return ERROR_VALUE;
     }
 
-    // base case:
+    // Base case:
     if (n == 1)
     {
         return char_to_int(x[0]) * char_to_int(y[0]);
@@ -57,7 +80,7 @@ long long multiply_monotone(const char *x, const char *y)
     if (!x1 || !x2 || !y1 || !y2)
     {
         fprintf(stderr, "Error: Memory allocation failed.\n");
-        exit(EXIT_FAILURE);
+        return ERROR_VALUE;
     }
 
     strncpy(x1, x, m);
@@ -89,7 +112,7 @@ long long multiply_monotone(const char *x, const char *y)
     free(y2);
 
     // Combine:
-    return result1 * pow(10, 2 * (n - m)) + (result3 - result1 - result2) * pow(10, n - m) + result2;
+    return result1 * pow(10, n) + (result3 - result1 - result2) * pow(10, n / 2) + result2;
 }
 
 int char_to_int(char c)
