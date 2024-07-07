@@ -1,3 +1,10 @@
+/*
+* PRE: A is an array of numbers. low and high are valid 
+*      indices of A such that 0 <= low <= high < size of A
+*
+* POST: The subarray A[low...high] is sorted in 
+*       non-descending order. 
+*/
 QuickSort(A, low, high):
 
     if low < high then do:
