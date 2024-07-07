@@ -2,6 +2,17 @@ package practice;
 
 public class Main {
 	
+	public static void quickSort(int[] A, int low, int high) {
+		
+		if(low < high) {
+			
+			int pivotIndex = partition(A, low, high);
+			
+			quickSort(A, low, pivotIndex - 1);
+			quickSort(A, pivotIndex + 1, high);
+		}
+	}
+	
 	public static int partition(int[] A, int low, int high) {
 		
 		int pivot = A[high];
@@ -56,13 +67,13 @@ public class Main {
 		
 		System.out.println("Value for low: " + low);
 		System.out.println("Value for high: " + high);
-		System.out.println("Array before partitioning:");
-		
+		System.out.println("Array before sorting with quickSort:");
 		printArray(A);
 		
 		int pivotIndex = partition(A, low, high);
+		quickSort(A, low, high);
 		
-		System.out.println("Array after partitioning:");
+		System.out.println("Array after quickSorting with partition:");
 		printArray(A);
 		
 		System.out.println("Pivot index: " + pivotIndex);
