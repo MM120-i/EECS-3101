@@ -7,9 +7,12 @@ public class Main {
 		int pivot = A[high];
 		int i = low - 1;
 		
+		System.out.println("Value of pivot: " + pivot);
 		System.out.println("Value of the high - 1 : "  + (high - 1));
 		
 		for(int j = low; j <= high - 1; j++) {
+			
+			System.out.println("Value of i: " + i + " value of j: " + j);
 			
 			if(A[j] <= pivot) {
 				
@@ -19,6 +22,9 @@ public class Main {
 				System.out.println("Value of j in the loop: " + j + "\n");
 			}
 		}
+		
+		System.out.println("\nArray after the loop before final swapping");
+		printArray(A);
 	
 		swap(A, i + 1, high);
 		
@@ -44,11 +50,14 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		int[] A = {3, 8, 6, 1, 5, 9, 4};
+		int[] A = {3, 8, 6, 1, 5};
 		int low = 0;
 		int high = A.length - 1;
 		
+		System.out.println("Value for low: " + low);
+		System.out.println("Value for high: " + high);
 		System.out.println("Array before partitioning:");
+		
 		printArray(A);
 		
 		int pivotIndex = partition(A, low, high);
