@@ -1,37 +1,26 @@
-# Assuming the inputs are of type string. 
-multiply_monotone(x, y):
-   
-    n = max(length of x, length of y)
+/**
+*   PRE: x and y are strings representing monotone numbers. 
+*   POST: Returns the product of x and y monotone numbers. 
+*/
+function multiply_monotone(x, y):
 
-    # base case:
-    if n == 1:
-        temp1 = convert x to integer
-        temp2 = convert y to integer
-        return temp1 * temp2
-   
-    # divide:
-    m = n // 2
+    // Convert strings x and y to integers
+    xInt = convert_to_integer(x)
+    yInt = convert_to_integer(y)
 
-    x1 = first m digits of x
-    x2 = last m digits of x
+    // Base case: if yInt or xInt is a single digit, perform direct multiplication
+    if length(y) == 1 or length(x) == 1:
+        return xInt * yInt
 
-    y1 = first m digits of y
-    y2 = last m digits of y
+    // Divide 
+    mid = length(y) / 2
+    h = substring(y, 0, mid)
 
+    recursiveResult = multiply_monotone(x, h)
 
-    # Conquer:
-    result1 = multiply_monotone(x1, x2)
-    result2 = multiply_monotone(y1, y2)
-   
-    sum1 = x1 + x2
-    sum2 = y1 + y2
+    string1 = convert_to_string(recursiveResult)
+    string2 = string1 + "0" * mid
+    finalProduct = convert_to_integer(string2)
 
-    result3 = multiply_monotone(sum1, sum2)
-
-    # Combine:
-    return result1 * pow(10, 2 * m) + 
-          (result3 - result1 - result2) * pow(10, m) + 
-           result2
-
-    # OR Combine:
-    # return result1 * pow(10, 2 * (n - m)) + (result3 - result1 - result2) * pow(10, n - m) + result2;
+    // Conquer
+    return finalProduct + recursiveResult
