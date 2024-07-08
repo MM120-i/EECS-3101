@@ -4,16 +4,19 @@
 #define INF INT_MAX
 #define N 9
 
-// Function prototypes
+// Helper functions:
 void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count); // get neighbours down.
 void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j);        // move down
+void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j);          // move up
+void percolateUpward(int A[][N], int i, int j, int *neighbors, int *count);   // get neighbours up
 
-void moveUp(int A[][N], int i, int j, int *new_i, int *new_j);             // move up
-void getNeighborsUp(int A[][N], int i, int j, int *neighbors, int *count); // get neighbours up
-void insert(int A[][N], int n, int value);
-void sort(int A[], int n);
+// Other
 void printMatrix(int A[][N], int n);
-int popmin(int A[][N], int n);
+
+// Parts of the questions (a, b, c)
+void insert(int A[][N], int n, int value); // Part B
+void sort(int A[], int n);                 // =================================== NEED TO FIX ==========================================
+int popmin(int A[][N], int n);             // Part A
 
 // Main function for testing
 int main()
@@ -69,7 +72,7 @@ void printMatrix(int A[][N], int n)
 }
 
 // Get neighbors up (left and above)
-void getNeighborsUp(int A[][N], int i, int j, int *neighbors, int *count)
+void percolateUpward(int A[][N], int i, int j, int *neighbors, int *count)
 {
     *count = 0;
     if (j - 1 >= 0)
@@ -98,10 +101,10 @@ void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count)
 }
 
 // Move up
-void moveUp(int A[][N], int i, int j, int *new_i, int *new_j)
+void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j)
 {
     int neighbors[2], count, ni, nj, min_idx = -1;
-    getNeighborsUp(A, i, j, neighbors, &count);
+    percolateUpward(A, i, j, neighbors, &count);
     if (count == 0)
     {
         *new_i = -1;
@@ -219,16 +222,16 @@ void insert(int A[][N], int n, int value)
 
     // Start moving up from the bottom-right corner
     int ci = n - 1, cj = n - 1, new_i, new_j;
-    moveUp(A, ci, cj, &new_i, &new_j);
+    adjustUpward(A, ci, cj, &new_i, &new_j);
     while (new_i != -1 && new_j != -1)
     {
         ci = new_i;
         cj = new_j;
-        moveUp(A, ci, cj, &new_i, &new_j);
+        adjustUpward(A, ci, cj, &new_i, &new_j);
     }
 }
 
-// Sort function
+// NEED TO BE FIXED!!!!!
 void sort(int A[], int n)
 {
     int B[N][N];
