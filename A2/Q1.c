@@ -5,8 +5,82 @@
 #define N 9
 
 // Function prototypes
-void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count);
-void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j);
+void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count); // get neighbours down.
+void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j);        // move down
+
+void moveUp(int A[][N], int i, int j, int *new_i, int *new_j);             // move up
+void getNeighborsUp(int A[][N], int i, int j, int *neighbors, int *count); // get neighbours up
+void insert(int A[][N], int n, int value);
+void sort(int A[], int n);
+void printMatrix(int A[][N], int n);
+int popmin(int A[][N], int n);
+
+// Main function for testing
+int main()
+{
+    int A[N][N] = {
+        {1, 2, 3, 4, 5, 6, 7, 8, 9},
+        {10, 11, 12, 13, 14, 15, 16, 17, 18},
+        {19, 20, 21, 22, 23, 24, 25, 26, 27},
+        {28, 29, 30, 31, 32, 33, 34, 35, 36},
+        {37, 38, 39, 40, 41, 42, 43, 44, 45},
+        {46, 47, 48, 49, 50, 51, 52, 53, 54},
+        {55, 56, 57, 58, 59, 60, 61, 62, 63},
+        {64, 65, 66, 67, 68, 69, 70, 71, 72},
+        {73, 74, 75, 76, 77, 78, 79, 80, INF}};
+
+    int n = 9;
+
+    printf("Matrix before insertion:\n");
+    printMatrix(A, n);
+
+    int value_to_insert = 100;
+    insert(A, n, value_to_insert);
+
+    printf("\nMatrix after insertion of %d:\n", value_to_insert);
+    printMatrix(A, n);
+
+    printf("\n");
+    int x = popmin(A, n);
+
+    printf("After popmin. Popped %d\n", x);
+    printMatrix(A, n);
+
+    return 0;
+}
+
+void printMatrix(int A[][N], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (A[i][j] == INF)
+            {
+                printf("INF ");
+            }
+            else
+            {
+                printf("%d ", A[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+// Get neighbors up (left and above)
+void getNeighborsUp(int A[][N], int i, int j, int *neighbors, int *count)
+{
+    *count = 0;
+    if (j - 1 >= 0)
+    {
+        neighbors[(*count)++] = i * N + (j - 1);
+    }
+    if (i - 1 >= 0)
+    {
+        neighbors[(*count)++] = (i - 1) * N + j;
+    }
+}
 
 // Get neighbors down (right and below)
 void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count)
@@ -16,9 +90,51 @@ void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count)
     {
         neighbors[(*count)++] = i * N + (j + 1);
     }
+
     if (i + 1 < N)
     {
         neighbors[(*count)++] = (i + 1) * N + j;
+    }
+}
+
+// Move up
+void moveUp(int A[][N], int i, int j, int *new_i, int *new_j)
+{
+    int neighbors[2], count, ni, nj, min_idx = -1;
+    getNeighborsUp(A, i, j, neighbors, &count);
+    if (count == 0)
+    {
+        *new_i = -1;
+        *new_j = -1;
+        return;
+    }
+
+    int min_val = INF;
+    for (int k = 0; k < count; k++)
+    {
+        ni = neighbors[k] / N;
+        nj = neighbors[k] % N;
+        if (A[ni][nj] < min_val)
+        {
+            min_val = A[ni][nj];
+            min_idx = k;
+        }
+    }
+
+    if (min_idx != -1 && A[i][j] < min_val)
+    {
+        ni = neighbors[min_idx] / N;
+        nj = neighbors[min_idx] % N;
+        int temp = A[i][j];
+        A[i][j] = A[ni][nj];
+        A[ni][nj] = temp;
+        *new_i = ni;
+        *new_j = nj;
+    }
+    else
+    {
+        *new_i = -1;
+        *new_j = -1;
     }
 }
 
@@ -90,57 +206,51 @@ int popmin(int A[][N], int n)
     return retval;
 }
 
-// Main function for testing
-int main()
+// Insert value function
+void insert(int A[][N], int n, int value)
 {
-    int A[N][N] = {
-        {1, 2, 3, 4, 5, 6, 7, 8, 9},
-        {10, 11, 12, 13, 14, 15, 16, 17, 18},
-        {19, 20, 21, 22, 23, 24, 25, 26, 27},
-        {28, 29, 30, 31, 32, 33, 34, 35, 36},
-        {37, 38, 39, 40, 41, 42, 43, 44, 45},
-        {46, 47, 48, 49, 50, 51, 52, 53, 54},
-        {55, 56, 57, 58, 59, 60, 61, 62, 63},
-        {64, 65, 66, 67, 68, 69, 70, 71, 72},
-        {73, 74, 75, 76, 77, 78, 79, 80, INF}};
+    if (n == 0)
+    {
+        return; // Can't insert into an empty matrix
+    }
 
-    int n = 9;
+    // Place the value in the bottom-right corner
+    A[n - 1][n - 1] = value;
 
+    // Start moving up from the bottom-right corner
+    int ci = n - 1, cj = n - 1, new_i, new_j;
+    moveUp(A, ci, cj, &new_i, &new_j);
+    while (new_i != -1 && new_j != -1)
+    {
+        ci = new_i;
+        cj = new_j;
+        moveUp(A, ci, cj, &new_i, &new_j);
+    }
+}
+
+// Sort function
+void sort(int A[], int n)
+{
+    int B[N][N];
+
+    // Initialize B with INF
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            if (A[i][j] == INF)
-            {
-                printf("INF ");
-            }
-            else
-            {
-                printf("%d ", A[i][j]);
-            }
+            B[i][j] = INF;
         }
-        printf("\n");
     }
 
-    int min_element = popmin(A, n);
-    printf("\nPopped minimum element: %d\n", min_element);
-    printf("Matrix after popmin operation:\n");
-
-    for (int i = 0; i < n; i++)
+    // Insert elements from A into B
+    for (int i = 0; i < n * n; i++)
     {
-        for (int j = 0; j < n; j++)
-        {
-            if (A[i][j] == INF)
-            {
-                printf("INF ");
-            }
-            else
-            {
-                printf("%d ", A[i][j]);
-            }
-        }
-        printf("\n");
+        insert(B, n, A[i]);
     }
 
-    return 0;
+    // Extract sorted elements back into A
+    for (int i = 0; i < n * n; i++)
+    {
+        A[i] = popmin(B, n);
+    }
 }
