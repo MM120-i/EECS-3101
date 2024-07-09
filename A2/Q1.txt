@@ -1,0 +1,238 @@
+/**
+* This is a helper function. It percolates up the Matrix.
+*/
+function percolateUpward(A, x, y, neighbors, count):
+
+    N = size(A) // Size of the input n x n Matrix.
+    count:= 0
+
+    if y - 1 >= 0 then
+        neighbors[count] := x * N + (y - 1)
+        count:= count + 1
+    endif
+
+    if x - 1 >= 0 then 
+        neighbors[count] := (x - 1) * N + y
+        count:= count + 1
+    endif
+
+end function
+
+/**
+* This is a helper function. It percolates down the Matrix.
+*/
+function percolateDownward(A, x, y, neighbors, count):
+
+    N = size(A) // Size of the input n x n Matrix. 
+    count:= 0
+
+    if y + 1 < N then
+        neighbors[count] := x * N + (y + 1)
+        count:= count + 1
+    endif
+
+    if x + 1 < N then
+        neighbors[count] := (x + 1) * N + y
+        count:= count + 1
+    endif
+
+end function
+
+/**
+* This is a helper function. It adjusts up the matrix.
+*/
+function adjustUpward(A, x, y, newX, newY)
+
+    N = size(A) // Size of the input n x n Matrix. 
+    neighbors := array of size 2
+    count := 0
+    nX := 0
+    nY := 0
+    min_idx := -1
+
+    percolateUpward(A, x, y, neighbors, count)
+
+    if count == 0 then
+        newX := -1
+        newY := -1
+        return
+    endif
+
+    min_val := INF
+
+    for k := 0 to count - 1 do
+
+        nX := neighbors[k] / N
+        nY := neighbors[k] % N
+
+        if A[nX][nY] < min_val then
+            min_val := A[nX][nY]
+            min_idx := k
+        endif
+
+    endfor
+
+    if min_idx != -1 and A[x][y] < min_val then
+
+        nX := neighbors[min_idx] / N
+        nY := neighbors[min_idx] % N
+        temp := A[x][y]
+        A[x][y] := A[nX][nY]
+        A[nX][nY] := temp
+        newX := nX
+        newY := nY
+
+    else
+        newX := -1
+        newY := -1
+    endif
+
+end function
+
+/**
+* This is a helper function. It adjusts down the matrix.
+*/
+function adjustDownward(A, x, y, newX, newY)
+
+    N = size(A) // Size of the input n x n Matrix. 
+    neighbors := array of size 2
+    count := 0
+    nX := 0
+    nY := 0
+    min_idx := -1
+
+    percolateDownward(A, x, y, neighbors, count)
+
+    if count == 0 then
+        newX := -1
+        newY := -1
+        return
+    endif
+
+    min_val := A[x][y]
+
+    for k := 0 to count - 1 do
+
+        nX := neighbors[k] / N
+        nY := neighbors[k] % N
+
+        if A[nX][nY] < min_val then
+            min_val := A[nX][nY]
+            min_idx := k
+        endif
+
+    endfor
+
+    if min_idx != -1 then
+
+        nX := neighbors[min_idx] / N
+        nY := neighbors[min_idx] % N
+        temp := A[x][y]
+        A[x][y] := A[nX][nY]
+        A[nX][nY] := temp
+        newX := nX
+        newY := nY
+    else
+        newX := -1
+        newY := -1
+    endif
+
+end function
+
+
+/**
+* Pop minimum value in the Matrix.
+*/ 
+function popmin(A, n):
+
+    if n == 0 then
+        return -1 // No element to pop from an empty matrix
+    endif
+
+    // The smallest element is at the top-left corner (0, 0)
+    element := A[0][0]
+
+    // Set the smallest element to INF
+    A[0][0] := INF
+
+    // Start moving down from the top-left corner
+    x := 0
+    y := 0
+    newX := 0
+    newY := 0
+    adjustDownward(A, x, y, newX, newY)
+
+    // Continue adjusting downward until no more downward adjustment is possible
+    while newX != -1 and newY != -1 do
+        x := newX
+        y := newY
+        adjustDownward(A, x, y, newX, newY)
+    endwhile
+
+    return element
+
+end function
+
+/**
+* Inserts a value into the Matrix.
+*/ 
+function insert(A, n, value)
+
+    if n == 0 then
+        return // Can't insert into an empty matrix
+    endif
+
+    // Place the value in the bottom-right corner
+    A[n - 1][n - 1] := value
+
+    // Start moving up from the bottom-right corner
+    x := n - 1
+    y := n - 1
+    newX := 0
+    newY := 0
+
+    adjustUpward(A, x, y, newX, newY)
+
+    // Continue adjusting upward until no more upward adjustment is possible
+    while newX != -1 and newY != -1 do
+        x := newX
+        y := newY
+        adjustUpward(A, x, y, newX, newY)
+    endwhile
+
+end function
+
+
+/**
+* Matrix sorting algorithm.
+*/ 
+function sort(A, size)
+
+    // Create a temporary new Matrix to hold sorted elements
+    newMatrix := 2D array of size n x n // size x size 
+    temp := 0
+
+    // Initialize the new matrix with INF values.
+    for i := 0 to size - 1 do
+        for j := 0 to size - 1 do
+            newMatrix[i][j] := INF
+        endfor
+    endfor
+
+    // Insert all elements from A into the new matrix.
+    for i := 0 to size - 1 do
+        for j := 0 to size - 1 do
+            insert(newMatrix, n, A[i][j])
+        endfor
+    endfor
+
+    // Extract sorted elements back into A
+    for i := 0 to size - 1 do
+        for j := 0 to size - 1 do
+            A[temp / size][temp % size] := popmin(newMatrix, size)
+            temp := temp + 1
+        endfor
+    endfor
+
+end function
+
