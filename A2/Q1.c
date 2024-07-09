@@ -5,17 +5,18 @@
 #define N 9
 
 // Helper functions:
-void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count); // get neighbours down.
-void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j);        // move down
-void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j);          // move up
-void percolateUpward(int A[][N], int i, int j, int *neighbors, int *count);   // get neighbours up
+void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count);
+void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j);
+void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j);
+void percolateUpward(int A[][N], int i, int j, int *neighbors, int *count);
 
 // Other
 void printMatrix(int A[][N], int n);
+void sortAlt(int A[][N], int n);
 
 // Parts of the questions (a, b, c)
 void insert(int A[][N], int n, int value); // Part B
-void sort(int A[], int n);                 // =================================== NEED TO FIX ==========================================
+void sort(int A[], int n);                 // Part C
 int popmin(int A[][N], int n);             // Part A
 
 // Main function for testing
@@ -47,6 +48,11 @@ int main()
     int x = popmin(A, n);
 
     printf("After popmin. Popped %d\n", x);
+    printMatrix(A, n);
+
+    printf("\nMatrix after sorting:\n");
+    sort(A, n);
+    sortAlt(A, n);
     printMatrix(A, n);
 
     return 0;
@@ -231,7 +237,7 @@ void insert(int A[][N], int n, int value)
     }
 }
 
-// NEED TO BE FIXED!!!!!
+// Sorting algorithm
 void sort(int A[], int n)
 {
     int B[N][N];
@@ -255,5 +261,38 @@ void sort(int A[], int n)
     for (int i = 0; i < n * n; i++)
     {
         A[i] = popmin(B, n);
+    }
+}
+
+// Alternative Sorting algorithm
+void sortAlt(int A[][N], int n)
+{
+    int B[N][N];
+
+    // Initialize B with INF values
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            B[i][j] = INF;
+        }
+    }
+
+    // Insert all elements from A into B
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            insert(B, n, A[i][j]);
+        }
+    }
+
+    // Extract sorted elements back into A
+    for (int i = 0, k = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++, k++)
+        {
+            A[k / n][k % n] = popmin(B, n);
+        }
     }
 }
