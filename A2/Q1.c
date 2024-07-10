@@ -138,10 +138,7 @@ void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j)
     {
         ni = neighbors[min_idx] / N;
         nj = neighbors[min_idx] % N;
-
-        // int temp = A[i][j];
-        // A[i][j] = A[ni][nj];
-        // A[ni][nj] = temp;
+        
         swap(A, i, j, ni, nj);
 
         *new_i = ni;
@@ -185,9 +182,6 @@ void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j)
         ni = neighbors[min_idx] / N;
         nj = neighbors[min_idx] % N;
 
-        // int temp = A[i][j];
-        // A[i][j] = A[ni][nj];
-        // A[ni][nj] = temp;
         swap(A, i, j, ni, nj);
 
         *new_i = ni;
