@@ -20,7 +20,7 @@ void sort(int A[], int n);                 // Part C
 int popmin(int A[][N], int n);             // Part A
 
 // Main function for testing
-int main()
+int main(void)
 {
     int A[N][N] = {
         {1, 2, 3, 4, 5, 6, 7, 8, 9},
