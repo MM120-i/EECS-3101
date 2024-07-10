@@ -13,6 +13,7 @@ void percolateUpward(int A[][N], int i, int j, int *neighbors, int *count);
 // Other
 void printMatrix(int A[][N], int n);
 void sortAlt(int A[][N], int n);
+void swap(int A[][N], int i, int j, int ni, int nj);
 
 // Parts of the questions (a, b, c)
 void insert(int A[][N], int n, int value); // Part B
@@ -33,26 +34,26 @@ int main(void)
         {64, 65, 66, 67, 68, 69, 70, 71, 72},
         {73, 74, 75, 76, 77, 78, 79, 80, INF}};
 
-    int n = 9;
+    const int n = 9;
 
     printf("Matrix before insertion:\n");
     printMatrix(A, n);
 
-    int value_to_insert = 100;
+    const int value_to_insert = 100;
     insert(A, n, value_to_insert);
 
     printf("\nMatrix after insertion of %d:\n", value_to_insert);
     printMatrix(A, n);
 
     printf("\n");
-    int x = popmin(A, n);
+    const int x = popmin(A, n);
 
     printf("After popmin. Popped %d\n", x);
     printMatrix(A, n);
 
     printf("\nMatrix after sorting:\n");
     sort(A, n);
-    sortAlt(A, n);
+    // sortAlt(A, n);
     printMatrix(A, n);
 
     return 0;
@@ -111,6 +112,7 @@ void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j)
 {
     int neighbors[2], count, ni, nj, min_idx = -1;
     percolateUpward(A, i, j, neighbors, &count);
+
     if (count == 0)
     {
         *new_i = -1;
@@ -119,10 +121,12 @@ void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j)
     }
 
     int min_val = INF;
+
     for (int k = 0; k < count; k++)
     {
         ni = neighbors[k] / N;
         nj = neighbors[k] % N;
+
         if (A[ni][nj] < min_val)
         {
             min_val = A[ni][nj];
@@ -134,9 +138,12 @@ void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j)
     {
         ni = neighbors[min_idx] / N;
         nj = neighbors[min_idx] % N;
-        int temp = A[i][j];
-        A[i][j] = A[ni][nj];
-        A[ni][nj] = temp;
+
+        // int temp = A[i][j];
+        // A[i][j] = A[ni][nj];
+        // A[ni][nj] = temp;
+        swap(A, i, j, ni, nj);
+
         *new_i = ni;
         *new_j = nj;
     }
@@ -152,6 +159,7 @@ void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j)
 {
     int neighbors[2], count, ni, nj, min_idx = -1;
     percolateDownward(A, i, j, neighbors, &count);
+
     if (count == 0)
     {
         *new_i = -1;
@@ -160,6 +168,7 @@ void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j)
     }
 
     int min_val = A[i][j];
+
     for (int k = 0; k < count; k++)
     {
         ni = neighbors[k] / N;
@@ -175,9 +184,12 @@ void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j)
     {
         ni = neighbors[min_idx] / N;
         nj = neighbors[min_idx] % N;
-        int temp = A[i][j];
-        A[i][j] = A[ni][nj];
-        A[ni][nj] = temp;
+
+        // int temp = A[i][j];
+        // A[i][j] = A[ni][nj];
+        // A[ni][nj] = temp;
+        swap(A, i, j, ni, nj);
+
         *new_i = ni;
         *new_j = nj;
     }
@@ -229,6 +241,7 @@ void insert(int A[][N], int n, int value)
     // Start moving up from the bottom-right corner
     int ci = n - 1, cj = n - 1, new_i, new_j;
     adjustUpward(A, ci, cj, &new_i, &new_j);
+
     while (new_i != -1 && new_j != -1)
     {
         ci = new_i;
@@ -295,4 +308,11 @@ void sortAlt(int A[][N], int n)
             A[k / n][k % n] = popmin(B, n);
         }
     }
+}
+
+void swap(int A[][N], int i, int j, int ni, int nj)
+{
+    int temp = A[i][j];
+    A[i][j] = A[ni][nj];
+    A[ni][nj] = temp;
 }
