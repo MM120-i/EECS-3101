@@ -1,16 +1,16 @@
 /*
-* PRE: A is an array of numbers. low and high are valid 
-*      indices of A such that 0 <= low <= high < size of A
+* PRE: A is an array of numbers. p and r are valid 
+*      indices of A such that 0 <= p <= r < size of A
 *
-* POST: The subarray A[low...high] is sorted in 
+* POST: The subarray A[p...r] is sorted in 
 *       non-descending order. 
 */
-QuickSort(A, low, high):
+QuickSort(A, p, r):
 
-    if low < high then do:
+    if p < r then do:
 
-        pivot = partition(A, low, high)
+        q = partition(A, p, r)
 
-        QuickSort(A, low, pivot - 1)
-        QuickSort(A, pivot + 1, high)
+        QuickSort(A, p, q - 1)
+        QuickSort(A, q + 1, r)
         
