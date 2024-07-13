@@ -203,6 +203,11 @@ end function
 * Matrix sorting algorithm.
 */ 
 function sort(A, n):
+
+    if A == null or n <= 0 then
+        return  // Cant sort this matrix
+    endif
+
     // Insert all elements into the matrix maintaining the order
     for i := 0 to n-1 do
         for j := 0 to n-1 do
@@ -219,5 +224,3 @@ function sort(A, n):
         endfor
     endfor
 end function
-
-
