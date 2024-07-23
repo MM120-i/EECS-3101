@@ -8,6 +8,7 @@ void greedy_solution(int, int[], int, int[], int *);
 void optimal_solution(int, int[], int, int[], int *);
 int compare_solutions(int[], int, int[], int);
 
+// Coin change problem.
 int main(void)
 {
     int coins[] = {100, 4, 3, 1};
