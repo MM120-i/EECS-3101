@@ -12,24 +12,31 @@ bool compare_solutions(int[], int, int[], int);
 // Coin change problem.
 int main(void)
 {
-    int coins[] = {100, 25, 10, 5, 1};
-    int amount = 250;
+    int coins[] = {100, 4, 3, 1};
+    int amount = 6;
 
-    int n = sizeof(coins) / sizeof(coins[0]);
+    int ARRAY_SIZE = sizeof(coins) / sizeof(coins[0]);
+
+    if (amount <= 0 || coins == NULL || ARRAY_SIZE < 4)
+    {
+        printf("No solutions.\n");
+        exit(EXIT_FAILURE);
+    }
+
     int greedy_result[SIZE], optimal_result[SIZE];
     int greedy_count, optimal_count;
 
     printf("Amount: %d\n", amount);
     printf("Coins: ");
 
-    for (size_t i = 0; i < n; i++)
+    for (size_t i = 0; i < ARRAY_SIZE; i++)
     {
         printf("%d ", coins[i]);
     }
     printf("\n");
 
-    greedy_solution(amount, coins, n, greedy_result, &greedy_count);
-    optimal_solution(amount, coins, n, optimal_result, &optimal_count);
+    greedy_solution(amount, coins, ARRAY_SIZE, greedy_result, &greedy_count);
+    optimal_solution(amount, coins, ARRAY_SIZE, optimal_result, &optimal_count);
 
     printf("Greedy Solution: ");
 
@@ -69,7 +76,7 @@ void greedy_solution(int amount, int coins[], int n, int result[], int *count)
     // Find the largest coin denomination that is less than or equal to the amount.
     while (amount > 0)
     {
-        int found = 0;
+        bool found = false;
 
         for (size_t i = 0; i < n; i++)
         {
@@ -77,7 +84,7 @@ void greedy_solution(int amount, int coins[], int n, int result[], int *count)
             {
                 amount -= coins[i];
                 result[(*count)++] = coins[i];
-                found = 1;
+                found = true;
                 break;
             }
         }
