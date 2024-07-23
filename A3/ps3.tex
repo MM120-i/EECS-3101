@@ -1,0 +1,77 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{ulem}
+\newcounter{ProblemNum}
+\newcounter{SubProblemNum}[ProblemNum]
+\newcommand{\divides}{\bigm|}
+\renewcommand{\theProblemNum}{\arabic{ProblemNum}}
+\renewcommand{\theSubProblemNum}{\alph{SubProblemNum}}
+\newcommand*{\anyproblem}[1]{\newpage\subsection*{#1}}
+\newcommand*{\problem}[1]{\stepcounter{ProblemNum} %
+\anyproblem{Problem \theProblemNum. \; #1}}
+\newcommand*{\soln}[1]{\subsubsection*{#1}}
+\newcommand*{\solution}{\soln{Solution}}
+\renewcommand*{\part}{\stepcounter{SubProblemNum} %
+\soln{Part (\theSubProblemNum)}}
+
+
+% Document metadata
+
+
+
+
+% Document starts here
+\begin{document}
+\begin{center}
+\begin{Large}
+  \textbf{EECS3101 Summer 2024 Assignment 3 }\\
+\end{Large}
+\begin{large}
+	Due: July 31st 23:59
+\end{large}
+\end{center}
+%\vspace{-.5in}
+
+\section*{General Instructions}
+Please read the following instructions carefully before starting the exercise. They contain important
+information about general exercise expectations, exercise submission instructions,
+and reminders of course policies.
+
+\begin{itemize}
+\item Your problem set is graded on both correctness and clarity of communication. Solutions
+which are technically correct but poorly written will not receive full marks. Please read over
+your solutions carefully before submitting them.
+
+\item Each problem set must be completed individually
+
+\item Solutions must be typeset electronically, submitted as a PDF with the correct filename ps1.pdf. Our recommendation goes for using {\LaTeX}  and we recommend \href{https://www.overleaf.com/}{Overleaf} as a tool, but you may feel free to pick your own tool, or generate a PDF using means such as Microsoft Word or other software.
+
+
+\item Submissions must be made \emph{before} the due date and time on eclass. Late submissions are not accepted.
+
+\end{itemize}
+
+
+
+\problem{}
+%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+\textsc{(50 Marks)} {\bf (Greedy Algorithms.)} A group of friends is organizing a bike racing competition. There are $n$ friends and $m$ bikes, but bikes ate not equal, some of them perform better and some of them perform worse. You may think that each bike has a performance factor $p_i, 1\le i\le m$ in the range $(1, 100)$ where $1$ is the worst and $100$ is the best. Each frieng has a greed factor $g_i, 1\le i\le n$ which is the minimum bike performace this firend will be content with. Your goal is to maximize the number of content friends, i.e., friends $i$ assigned a bike $j$ with $g_i\le p_j$. Give a correct greedy algorithm for this problem (15 marks), prove that it finds the optimal solution (20 marks), and give an efficient implementation (15 marks).
+
+
+%%Write your solution here
+
+\problem{}
+\textsc{(50 marks)} {\bf (Greedy Algorithms)}
+Describe an efficient algorithm that, given a set $\{x_1, x_2, \dots, x_n\}$ of points on the
+real line, determines the smallest set of unit-length closed intervals that contains
+all of the given points.  Give a correct greedy algorithm for this problem (15 marks), prove that it finds the optimal solution (20 marks), and give an efficient implementation (15 marks).
+%%Write your solution here
+\end{document}
