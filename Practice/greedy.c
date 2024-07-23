@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <stdbool.h>
 
 #define SIZE 100
 
 void greedy_solution(int, int[], int, int[], int *);
 void optimal_solution(int, int[], int, int[], int *);
-int compare_solutions(int[], int, int[], int);
+bool compare_solutions(int[], int, int[], int);
 
 // Coin change problem.
 int main(void)
 {
-    int coins[] = {100, 4, 3, 1}; // change and play around with this
-    int amount = 6;   // change and play around with this
+    int coins[] = {100, 25, 10, 5, 1};
+    int amount = 250;
+
     int n = sizeof(coins) / sizeof(coins[0]);
     int greedy_result[SIZE], optimal_result[SIZE];
     int greedy_count, optimal_count;
@@ -146,20 +148,20 @@ void optimal_solution(int amount, int coins[], int n, int result[], int *count)
 /**
  * Compares two solution (greedy and optimal).
  */
-int compare_solutions(int result1[], int count1, int result2[], int count2)
+bool compare_solutions(int result1[], int count1, int result2[], int count2)
 {
     if (count1 != count2)
     {
-        return 0;
+        return false;
     }
 
     for (size_t i = 0; i < count1; i++)
     {
         if (result1[i] != result2[i])
         {
-            return 0;
+            return false;
         }
     }
 
-    return 1;
+    return true;
 }
