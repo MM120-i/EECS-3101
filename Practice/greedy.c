@@ -11,8 +11,8 @@ int compare_solutions(int[], int, int[], int);
 // Coin change problem.
 int main(void)
 {
-    int coins[] = {100, 4, 3, 1};
-    int amount = 6;
+    int coins[] = {100, 4, 3, 1}; // change and play around with this
+    int amount = 6;   // change and play around with this
     int n = sizeof(coins) / sizeof(coins[0]);
     int greedy_result[SIZE], optimal_result[SIZE];
     int greedy_count, optimal_count;
