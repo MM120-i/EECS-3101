@@ -81,7 +81,30 @@ int compare(const void *a, const void *b)
 }
 
 /**
- * Function to maximize the number of content friends.
+ * @brief Maximizes the number of friends who are satisfied with their bike assignments.
+ *
+ * The function assigns bikes to friends in a way that maximizes the number of friends
+ * whose greed factor is met or exceeded by the bike's performance factor. It sorts both
+ * the friends and bikes arrays and uses a greedy approach to assign the smallest possible
+ * bike that satisfies each friend. It also maintains a hash map to handle unsatisfied friends
+ * for potential reassignment or reporting.
+ *
+ * @pre The `friends` array must contain the greed factors of friends and the `bikes` array
+ *      must contain the performance factors of bikes. The `n` parameter should be the number of
+ *      friends, and the `m` parameter should be the number of bikes. Both arrays must be valid
+ *      and not null. The function assumes that `m >= n` (i.e., there are at least as many bikes
+ *      as friends).
+ *
+ * @post The function will print the number of content friends, and for each friend, it will
+ *       print whether they are satisfied or unsatisfied with their bike assignment. If a friend
+ *       is unsatisfied (S < 0), the function will store this information in a hash map. The function
+ *       does not modify the input arrays.
+ *
+ * @param friends An array of integers where each integer represents the minimum bike performance
+ *                that a friend is content with.
+ * @param n The number of friends (length of the `friends` array).
+ * @param bikes An array of integers where each integer represents the performance factor of a bike.
+ * @param m The number of bikes (length of the `bikes` array).
  */
 void maximize_content_friends(int friends[], int n, int bikes[], int m)
 {
