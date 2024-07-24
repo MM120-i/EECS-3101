@@ -28,6 +28,10 @@ function maximize_content_friends(friends, n, bikes, m)
                 Insert into hash_map with key S and value bike_pointer
                 friend_pointer = friend_pointer + 1
             End If
+
+            If S is large
+                swap a bike with a lower performance till S is close to 0
+            end if
             bike_pointer = bike_pointer + 1
         End If
     End While
