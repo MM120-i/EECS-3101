@@ -1,0 +1,29 @@
+/**
+* points: The input set of points on a real number line.
+*         Treated as an array in this implementation. 
+* n: Size of the input set.
+**/
+function markedPoints(points, n):
+    // Sort the points
+    Sort(points, n)
+
+    // Initialize variables
+    S = n
+    U = 0
+    i = 0
+
+    // Loop through all points
+    while i < n:
+        U = U + 1 // Add a new interval
+        intervalStart = points[i]
+        intervalEnd = intervalStart + 1
+
+        // Move to the next point that is not marked by this interval
+        while i < n and points[i] <= intervalEnd:
+            i = i + 1
+
+        if U >= S:
+            print: Failed to maximize the usage of segments.
+            return
+
+end function
