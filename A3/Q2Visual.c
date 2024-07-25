@@ -5,7 +5,7 @@
 #define SIZE 5
 
 int compare(const void *, const void *);
-void coverPointsWithIntervals(double[], int);
+void markedPoints(double[], int);
 void printArray(double[]);
 
 int main(void)
@@ -25,22 +25,22 @@ int main(void)
 
     printf("Test Case 1:\nFirst set: ");
     printArray(points1);
-    coverPointsWithIntervals(points1, n1);
+    markedPoints(points1, n1);
     printf("\n");
 
     printf("Test Case 2:\nSecond set: ");
     printArray(points2);
-    coverPointsWithIntervals(points2, n2);
+    markedPoints(points2, n2);
     printf("\n");
 
     printf("Test Case 3:\nThird set: ");
     printArray(points3);
-    coverPointsWithIntervals(points3, n3);
+    markedPoints(points3, n3);
     printf("\n");
 
     printf("Test case 4:\nFourth set: ");
     printArray(points4);
-    coverPointsWithIntervals(points4, n4);
+    markedPoints(points4, n4);
     printf("\n");
 
     return 0;
@@ -79,7 +79,7 @@ int compare(const void *a, const void *b)
 /**
  * Finds the minimum number of unit-length intervals to cover all points.
  */
-void coverPointsWithIntervals(double points[], int n)
+void markedPoints(double points[], int n)
 {
     // Sort
     qsort(points, n, sizeof(double), compare);
