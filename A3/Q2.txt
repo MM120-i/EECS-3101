@@ -8,7 +8,7 @@ function markedPoints(points, n):
     Sort(points, n)
 
     // Initialize variables
-    S = n
+    S = size of points
     U = 0
     i = 0
 
@@ -30,3 +30,4 @@ while i < n:
             return
 
 end function
+
