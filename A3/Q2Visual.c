@@ -99,6 +99,12 @@ void markedPoints(double points[], int n)
         {
             i++;
         }
+
+        if (U >= S)
+        {
+            printf("Failed to minimize segment usage.\n");
+            return;
+        }
     }
 
     printf("Total number of points (S): %d\n", S);
