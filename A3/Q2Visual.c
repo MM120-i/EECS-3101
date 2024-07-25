@@ -88,6 +88,12 @@ void markedPoints(double points[], int n)
     int U = 0;
     int i = 0;
 
+    if (S == 0)
+    {
+        print("Empty input set.\n");
+        return;
+    }
+
     while (i < n)
     {
         U++; // Add a new interval
