@@ -1,3 +1,5 @@
+// CONTAINS ORIGINAL VARIABLE!
+
 #include <stdio.h>
 #include <limits.h>
 
