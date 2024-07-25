@@ -4,7 +4,7 @@
 * n: Size of the input set.
 **/
 function markedPoints(points, n):
-    // Sort the points
+    // Sort the points in ascending order
     Sort(points, n)
 
     // Initialize variables
