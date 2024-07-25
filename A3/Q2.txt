@@ -12,8 +12,11 @@ function markedPoints(points, n):
     U = 0
     i = 0
 
-    // Loop through all points
-    while i < n:
+    if s == 0: // Cannot work an with empty set.
+        return;
+
+// Loop through all points
+while i < n:
         U = U + 1 // Add a new interval
         intervalStart = points[i]
         intervalEnd = intervalStart + 1
