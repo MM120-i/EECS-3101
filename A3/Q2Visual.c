@@ -90,7 +90,7 @@ void markedPoints(double points[], int n)
 
     if (S == 0)
     {
-        print("Empty input set.\n");
+        printf("Empty input set.\n");
         return;
     }
 
