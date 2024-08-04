@@ -1,0 +1,89 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{ulem}
+\newcounter{ProblemNum}
+\newcounter{SubProblemNum}[ProblemNum]
+\newcommand{\divides}{\bigm|}
+\renewcommand{\theProblemNum}{\arabic{ProblemNum}}
+\renewcommand{\theSubProblemNum}{\alph{SubProblemNum}}
+\newcommand*{\anyproblem}[1]{\newpage\subsection*{#1}}
+\newcommand*{\problem}[1]{\stepcounter{ProblemNum} %
+\anyproblem{Problem \theProblemNum. \; #1}}
+\newcommand*{\soln}[1]{\subsubsection*{#1}}
+\newcommand*{\solution}{\soln{Solution}}
+\renewcommand*{\part}{\stepcounter{SubProblemNum} %
+\soln{Part (\theSubProblemNum)}}
+
+
+% Document metadata
+
+
+
+
+% Document starts here
+\begin{document}
+\begin{center}
+\begin{Large}
+  \textbf{EECS3101 Summer 2024 Assignment 4 }\\
+\end{Large}
+\begin{large}
+	Due: Aug 12th 23:59. \\ No extensions will be given, unless you are entitled to and extension by accessibility.
+\end{large}
+\end{center}
+%\vspace{-.5in}
+
+\section*{General Instructions}
+Please read the following instructions carefully before starting the exercise. They contain important
+information about general exercise expectations, exercise submission instructions,
+and reminders of course policies.
+
+\begin{itemize}
+\item Your problem set is graded on both correctness and clarity of communication. Solutions
+which are technically correct but poorly written will not receive full marks. Please read over
+your solutions carefully before submitting them.
+
+\item Each problem set must be completed individually
+
+\item Solutions must be typeset electronically, submitted as a PDF with the correct filename ps4.pdf. Our recommendation goes for using {\LaTeX}  and we recommend \href{https://www.overleaf.com/}{Overleaf} as a tool, but you may feel free to pick your own tool, or generate a PDF using means such as Microsoft Word or other software.
+
+
+\item Submissions must be made \emph{before} the due date and time on eclass. Late submissions are not accepted.
+
+\end{itemize}
+
+
+
+\problem{}
+%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+\textsc{(40 Marks)} We are given a list $L$ of $n$ ordered integers you're tasked with removing $m$ of them such that the distance between the closest two remaining integers is maximized.  As an example, consider the list $[1,4,5,6,8,9]$, where we are allowed to remove two numbers. Here, an optimal solution would be to remove the numbers  5 and 8, leaving us with the list $[1,4,6,9]$. The distance between the closest remaining numbers is 2 (between 4 and 6). As it turns out there is no (known) greedy algorithm to solve this problem. However, there is a dynamic programming solution. Devise a dynamic programming solution which determines the maximum distance between the closest two points after removing $m$ numbers. Note, it doesn't need to return the resulting list itself.
+
+\textbf{Hint 1:} Your sub-problems should be of the form $S(i,j)$, where $S(i,j)$ returns the maximum distance of the closest two numbers when only considering removing $j$ of the first $i$ numbers in $L$. As an example if $L = [3,4,6,8,9,12,13,15]$, then $S(4,1)=2$, since the closest two values of $L' = [3,4,6,8]$ are 6 and 8 after removing 4 (note, 8-6 = 2). 
+
+\textbf{Hint 2:} For the sub-problem $S(i,j)$, assuming $j < i -2$, you know there's always an optimal solution which leaves the values $L[1]$ and $L[i]$ in the list.
+
+Give Bellman equation for $S(i,j)$ including all its base cases.
+
+
+%%Write your solution here
+
+\problem{}
+\textsc{(60 marks)} You're an entry level employee managing a financial portfolio. Because you're a total novice, your boss limits the portfolio to a single stock, and moreover, each day you're only allowed to make one of three choices: do nothing, purchase exactly one share, or sell all shares you currently own. You are scheduled to manage the portfolio for $n$ days, and for each day $i$ the price of the stock is estimated to be $p_i$. Assume these estimations are perfect. On any given day $i$ the value of your portfolio equals
+$$ (\#\text{shares you own})p_i - (\text{amount spent to buy  shares}) + (\text{amount made from selling past shares}).$$ 
+\begin{enumerate}
+\item Devise a dynamic programming algorithm to determine the maximum value your portfolio can achieve on day $n$. Make sure to:
+\begin{itemize}
+\item Clearly state your sub-problems in plain English
+\item Formally define your sub-problems mathematically (give Bellman equations)
+\item State how one would arrive at the final answer from your sub-problems (where do you read the optimal solution on the table)
+\end{itemize}
+\end{enumerate}
+%%Write your solution here
+\end{document}
