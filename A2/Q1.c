@@ -1,4 +1,4 @@
-// CONTAINS ORIGINAL VARIABLE!
+// HAS ORIGINAL VALUES
 
 #include <stdio.h>
 #include <limits.h>
@@ -6,79 +6,16 @@
 #define INF INT_MAX
 #define N 9
 
-// Helper functions:
+// Function prototypes
+void percolateUpward(int A[][N], int i, int j, int *neighbors, int *count);
+void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j);
 void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count);
 void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j);
-void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j);
-void percolateUpward(int A[][N], int i, int j, int *neighbors, int *count);
-
-// Other
+int popmin(int A[][N]);
+void insert(int A[][N], int value);
+void swap(int A[][N], int i1, int j1, int i2, int j2);
+void sort(int A[][N], int n);
 void printMatrix(int A[][N], int n);
-void sortAlt(int A[][N], int n);
-void swap(int A[][N], int i, int j, int ni, int nj);
-
-// Parts of the questions (a, b, c)
-void insert(int A[][N], int n, int value); // Part B
-void sort(int A[], int n);                 // Part C
-int popmin(int A[][N], int n);             // Part A
-
-// Main function for testing
-int main(void)
-{
-    int A[N][N] = {
-        {1, 2, 3, 4, 5, 6, 7, 8, 9},
-        {10, 11, 12, 13, 14, 15, 16, 17, 18},
-        {19, 20, 21, 22, 23, 24, 25, 26, 27},
-        {28, 29, 30, 31, 32, 33, 34, 35, 36},
-        {37, 38, 39, 40, 41, 42, 43, 44, 45},
-        {46, 47, 48, 49, 50, 51, 52, 53, 54},
-        {55, 56, 57, 58, 59, 60, 61, 62, 63},
-        {64, 65, 66, 67, 68, 69, 70, 71, 72},
-        {73, 74, 75, 76, 77, 78, 79, 80, INF}};
-
-    const int n = 9;
-
-    printf("Matrix before insertion:\n");
-    printMatrix(A, n);
-
-    const int value_to_insert = 100;
-    insert(A, n, value_to_insert);
-
-    printf("\nMatrix after insertion of %d:\n", value_to_insert);
-    printMatrix(A, n);
-
-    printf("\n");
-    const int x = popmin(A, n);
-
-    printf("After popmin. Popped %d\n", x);
-    printMatrix(A, n);
-
-    printf("\nMatrix after sorting:\n");
-    sort(A, n);
-    // sortAlt(A, n);
-    printMatrix(A, n);
-
-    return 0;
-}
-
-void printMatrix(int A[][N], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            if (A[i][j] == INF)
-            {
-                printf("INF ");
-            }
-            else
-            {
-                printf("%d ", A[i][j]);
-            }
-        }
-        printf("\n");
-    }
-}
 
 // Get neighbors up (left and above)
 void percolateUpward(int A[][N], int i, int j, int *neighbors, int *count)
@@ -102,7 +39,6 @@ void percolateDownward(int A[][N], int i, int j, int *neighbors, int *count)
     {
         neighbors[(*count)++] = i * N + (j + 1);
     }
-
     if (i + 1 < N)
     {
         neighbors[(*count)++] = (i + 1) * N + j;
@@ -140,7 +76,7 @@ void adjustUpward(int A[][N], int i, int j, int *new_i, int *new_j)
     {
         ni = neighbors[min_idx] / N;
         nj = neighbors[min_idx] % N;
-        
+
         swap(A, i, j, ni, nj);
 
         *new_i = ni;
@@ -196,14 +132,17 @@ void adjustDownward(int A[][N], int i, int j, int *new_i, int *new_j)
     }
 }
 
-// Pop minimum function
-int popmin(int A[][N], int n)
+// Swap two elements
+void swap(int A[][N], int i1, int j1, int i2, int j2)
 {
-    if (n == 0)
-    {
-        return -1; // No element to pop from an empty matrix
-    }
+    int temp = A[i1][j1];
+    A[i1][j1] = A[i2][j2];
+    A[i2][j2] = temp;
+}
 
+// Pop minimum function
+int popmin(int A[][N])
+{
     // The smallest element is at the top-left corner (0, 0)
     int retval = A[0][0];
 
@@ -214,28 +153,24 @@ int popmin(int A[][N], int n)
     int ci = 0, cj = 0, new_i, new_j;
     adjustDownward(A, ci, cj, &new_i, &new_j);
 
-    for (; new_i != -1 && new_j != -1; adjustDownward(A, ci, cj, &new_i, &new_j))
+    while (new_i != -1 && new_j != -1)
     {
         ci = new_i;
         cj = new_j;
+        adjustDownward(A, ci, cj, &new_i, &new_j);
     }
 
     return retval;
 }
 
 // Insert value function
-void insert(int A[][N], int n, int value)
+void insert(int A[][N], int value)
 {
-    if (n == 0)
-    {
-        return; // Can't insert into an empty matrix
-    }
-
     // Place the value in the bottom-right corner
-    A[n - 1][n - 1] = value;
+    A[N - 1][N - 1] = value;
 
     // Start moving up from the bottom-right corner
-    int ci = n - 1, cj = n - 1, new_i, new_j;
+    int ci = N - 1, cj = N - 1, new_i, new_j;
     adjustUpward(A, ci, cj, &new_i, &new_j);
 
     while (new_i != -1 && new_j != -1)
@@ -246,69 +181,59 @@ void insert(int A[][N], int n, int value)
     }
 }
 
-// Sorting algorithm
-void sort(int A[], int n)
+// Sort function
+void sort(int A[][N], int n)
 {
-    int B[N][N];
-
-    // Initialize B with INF
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            B[i][j] = INF;
-        }
-    }
-
-    // Insert elements from A into B
+    // Iterate over each element to ensure it's placed in the sorted order
     for (int i = 0; i < n * n; i++)
     {
-        insert(B, n, A[i]);
-    }
-
-    // Extract sorted elements back into A
-    for (int i = 0; i < n * n; i++)
-    {
-        A[i] = popmin(B, n);
+        int min_val = popmin(A);
+        insert(A, min_val);
     }
 }
 
-// Alternative Sorting algorithm
-void sortAlt(int A[][N], int n)
+// Main function for testing
+int main()
 {
-    int B[N][N];
+    int A[N][N] = {
+        {81, 79, 34, 65, 77, 80, 45, 55, 1},
+        {42, 30, 11, 15, 28, 13, 23, 18, 49},
+        {14, 51, 39, 60, 61, 3, 33, 6, 35},
+        {66, 69, 70, 32, 20, 4, 75, 12, 40},
+        {24, 31, 29, 67, 74, 36, 19, 72, 25},
+        {76, 78, 21, 62, 44, 5, 47, 27, 10},
+        {71, 2, 22, 50, 63, 7, 26, 46, 16},
+        {53, 41, 48, 52, 68, 17, 8, 9, 37},
+        {43, 73, 64, 59, 58, 38, 57, 56, 54}};
 
-    // Initialize B with INF values
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            B[i][j] = INF;
-        }
-    }
+    int n = 9;
 
-    // Insert all elements from A into B
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            insert(B, n, A[i][j]);
-        }
-    }
+    printf("Matrix before sorting:\n");
+    printMatrix(A, n);
 
-    // Extract sorted elements back into A
-    for (int i = 0, k = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++, k++)
-        {
-            A[k / n][k % n] = popmin(B, n);
-        }
-    }
+    sort(A, n);
+
+    printf("\nMatrix after sorting:\n");
+    printMatrix(A, n);
+
+    return 0;
 }
 
-void swap(int A[][N], int i, int j, int ni, int nj)
+void printMatrix(int A[][N], int n)
 {
-    int temp = A[i][j];
-    A[i][j] = A[ni][nj];
-    A[ni][nj] = temp;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (A[i][j] == INF)
+            {
+                printf("INF ");
+            }
+            else
+            {
+                printf("%d ", A[i][j]);
+            }
+        }
+        printf("\n");
+    }
 }
