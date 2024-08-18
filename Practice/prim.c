@@ -11,7 +11,6 @@ void primMST(int[V][V]);
 
 int main(void)
 {
-
     int graph[V][V] = {{0, 2, 0, 6, 0},
                        {2, 0, 3, 8, 5},
                        {0, 3, 0, 0, 7},
