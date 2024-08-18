@@ -16,10 +16,7 @@ int main(void)
                        {0, 3, 0, 0, 7},
                        {6, 8, 0, 0, 9},
                        {0, 5, 7, 9, 0}};
-
-    printf("Original Graph:\n");
-    printGraph(graph);
-
+    
     primMST(graph);
 
     return 0;
