@@ -1,3 +1,4 @@
+# Q1
 def minLaundryCost(loads, r, w):
 
     n = len(loads)
