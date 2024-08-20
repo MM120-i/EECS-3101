@@ -1,3 +1,5 @@
+# WEEK 1
+
 def avg(A):
     """PRE: A is a list of numbers."""
     """POST: The average of the numbers in A"""
@@ -74,6 +76,53 @@ def MULT3(m, n):
     
     return z
 
+def myTest(n):
+
+    if n <= 0:
+        return 0
+    else:
+        i = random(n - 1)
+        return myTest(i) + myTest(n - 1 - i)
+
+
+# WEEK 3
+
+def max_crossing(A, low, mid, high):
+
+    leftSum = 0
+    s = 0
+
+    for i in range(mid, low - 1, -1):
+        s = s + A[i]
+
+        if s > leftSum:
+            leftSum = s
+    
+    rightSum = 0
+    s = 0
+
+    for i in range(mid + 1, high + 1):
+        s = s + A[i]
+
+        if s > rightSum:
+            rightSum = s
+
+    return leftSum + rightSum
+
+
+
+def max_seg_sum(A, low, high):
+    
+    if low == high:
+        return max(A[low], 0)
+    
+    mid = (low + high) // 2
+    leftSum = max_seg_sum(A, low, mid)
+    rightSum = max_seg_sum(A, mid + 1, high)
+    crossSum = max_crossing(A, low, mid, high)
+    
+    return max(leftSum, rightSum, crossSum)
+
 
 # Tests:
 numbers = [1, 2, 3, 4, 5]
@@ -81,4 +130,6 @@ print("The average of", numbers, "is", avg(numbers)) # Avg fuction
 print(is_prime(11)) # Prime function
 print(compute_lcm(15, 10))
 print(MULT3(5, 10))
+arr = [2, -5, 8, -6, 10, -2]
+print(max_seg_sum(arr, arr[0], arr[len(arr)-1]))
     
